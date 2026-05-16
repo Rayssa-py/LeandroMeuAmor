@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para o Meu Amor ❤️</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
+
+        /* RESET E BASE */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #000000;
+            overflow-x: hidden;
+            background-color: #000;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Dancing Script', cursive;
+            margin: 0;
+        }
+
+        /* TEXTO PRETO COM BRILHO BRANCO PARA LEITURA */
+        h1, h2, h3, p, span, footer, button, input {
+            color: #000000 !important;
+            text-shadow: 0 0 10px #fff, 0 0 5px #fff, 0 0 2px #fff; 
+        }
+
+        /* TELA DE SENHA */
+        #tela-senha {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: url('entrada.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            z-index: 100;
+        }
+
+        .caixa-login {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            max-width: 300px;
+            width: 85%;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .caixa-login input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.9);
+            margin-top: 15px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .caixa-login button {
+            margin-top: 20px;
+            padding: 10px 30px;
+            border-radius: 10px;
+            border: 2px solid #000;
+            cursor: pointer;
+            font-weight: bold;
+            background: #fff;
+        }
+
+        /* PÁGINA DA CARTA (Girassóis) */
+        #conteudo-site {
+            background: url('girassol.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+        }
+
+        /* PÁGINA DO MUNDO DAS MEMÓRIAS (Pôr do sol) */
+        #pagina-momentos {
+            background: url('fundo_fotos.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: none;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 25px 15px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .cartao {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 25px;
+            border-radius: 20px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+
+        /* BOTÃO MUNDO DAS MEMÓRIAS */
+        .btn-mundo {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #000;
+            padding: 15px 35px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: 0.3s;
+        }
+        .btn-mundo:hover { transform: scale(1.1); background: #fff; }
+
+        /* SLIDER E MOLDURA */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            margin: auto;
+        }
+
+        .slide { display: none; animation: fadeIn 1s; }
+        .slide.ativo { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .episodio-titulo {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .moldura {
+            background: white;
+            padding: 15px 15px 60px 15px;
+            border-radius: 5px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            margin-bottom: 20px;
+            display: inline-block;
+            width: 90%;
+            box-sizing: border-box;
+        }
+
+        .img-momento {
+            width: 100%;
+            display: block;
+            border: 1px solid #ddd;
+        }
+
+        .seta {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            border: 2px solid #000;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .seta-esq { left: -10px; }
+        .seta-dir { right: -10px; }
+
+        /* TRANSIÇÃO AVIÃO DE PAPEL */
+        #transicao-aviao {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: white;
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+        }
+
+        .aviao-icon {
+            font-size: 80px;
+            color: #ff4d6d;
+            position: absolute;
+        }
+
+        @keyframes vooAviao {
+            0% { transform: translate(-150vw, 50vh) rotate(10deg); opacity: 1; }
+            50% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(150vw, -50vh) rotate(-10deg); opacity: 1; }
+        }
+
+        @keyframes bgFill {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* CORAÇÕES */
+        .coracao-chuva {
+            position: fixed;
+            top: -10%;
+            color: #ff4d6d;
+            font-size: 22px;
+            pointer-events: none;
+            animation: queda linear forwards;
+            z-index: 999;
+        }
+        @keyframes queda { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+
+        footer {
+            padding: 20px;
+            background: rgba(0,0,0,0.8);
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="musica-inicio" src="musica_inicio.mp3" loop></audio>
+    <audio id="musica-memorias" src="musica_memorias.mp3" loop></audio>
+
+    <div id="transicao-aviao">
+        <i class="fas fa-paper-plane aviao-icon"></i>
+    </div>
+
+    <div id="tela-senha">
+        <div class="caixa-login">
+            <h2>Digite a senha:</h2>
+            <input type="password" id="campo-senha" placeholder="A data especial...">
+            <br>
+            <button onclick="verificarSenha()">Entrar ❤️</button>
+            <p class="dica">dica: o dia em que nos declaramos</p>
+            <p id="mensagem-erro" style="color:red;"></p>
+        </div>
+    </div>
+
+    <div id="conteudo-site" class="fundo-interno">
+        <header>
+            <h1>Para o Homem da Minha Vida ❤️</h1>
+            <p>Aqui vamos relembrar momentos juntos do nosso primeiro ano meu amor ❤️</p>
+        </header>
+        <div class="container">
+            <div class="cartao">
+                <h2>Por que eu te amo?</h2>
+                <p>
+                    Bom, essa pergunta é um pouco dificil de responder, por que se eu for pensar em um motivo eu vou ter vários rsrs ❤️ 
+                    Mas irei tentar explicar em pequenas palavras, eu te amo por você ser sempre carinhoso comigo, sempre estar ali me apoiando em todos os momentos da minha vida, até quando tudo parecer que é o fim, meus momentos com você são os mais preciosos pra mim, eu te amo por que quero algum dia morar, ter uma família, casar com você meu amor, sempre lembre que eu nunca, nunca na minha vida deixarei de te amar, pois eu sei que foi o senhor que colocou você na minha vida, te amo ❤️
+                </p>
+            </div>
+            <button class="btn-mundo" onclick="animarTransicao('conteudo-site', 'pagina-momentos', true)">Mundo das memórias 🌎</button>
+        </div>
+        <footer>Feito com amor por Rayssa | 2026</footer>
+    </div>
+
+    <div id="pagina-momentos" class="fundo-interno">
+        <header>
+            <h1>Mundo das Memórias 🌎</h1>
+        </header>
+        <div class="container">
+            <div class="slider-container">
+                <button class="seta seta-esq" onclick="mudarSlide(-1)">❮</button>
+                <button class="seta seta-dir" onclick="mudarSlide(1)">❯</button>
+
+                <div class="slide ativo">
+                    <h3 class="episodio-titulo">Episódio 1: Nosso Lar</h3>
+                    <div class="moldura"><img src="foto1.jpg" class="img-momento"></div>
+                    <div class="cartao">
+                        <p>Bom, aqui que começou tudo minha vida, sei que vc já fez um site parecido mas vale lembrar, começamos a conversar pelo celular e nos aproximar mais, quando você pediu as anotações de artes, infelizmente não tenho prints dessas conversas mas seria um sonho se tivesse, depois disso começamos a conversar todos os dias, e lembro que no primeiro simulado do enem passamos o dia inteiro conversando, e teve o dia em que jogamos minecraft juntos e fizemos a nossa casa e criamos o nosso mundinho, eu amava ele, foi o dia também que escutei a sua voz pela primera vez, eu lembro que eu fiquei tão feliz em escutar, achei tão bonita. ❤️</p>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h3 class="episodio-titulo">Episódio 2: Eu Gosto de Você</h3>
+                    <div class="moldura"><img src="foto2.jpg" class="img-momento"></div>
+                    <div class="cartao">
+                        <p>Até que em um momento aconteceu, mesmo que envergonhados falamos que gostamos um do outro, esse foi o dia em que eu tive a certeza de que você era o meu amor.</p>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h3 class="episodio-titulo">Episódio 3: Entre Beijos e Conversas</h3>
+                    <div class="moldura"><img src="foto3.jpg" class="img-momento"></div>
+                    <div class="cartao">
+                        <p>E dia 16/05 o dia que estou fazendo o seu presente ksksks, foi o dia do nosso primeiro beijo, em baixo da sala de redação o lugar em que sempre iamos pra fazer isso no inicio rsrsrs, eu lembro que quando conversamos sobre a noite, você disse que gostou muito, e havia ficado nervoso, e depois havia me abraçado para desacelerar o coração. me dá uma nostalgia só de lembrar desse momento. ❤️</p>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h3 class="episodio-titulo">Episódio 4: Primeiro Registro</h3>
+                    <div class="moldura"><img src="foto4.jpg" class="img-momento"></div>
+                    <div class="cartao">
+                        <p>A nossa primeira foto juntos, lembro que fiquei com receio de postar pois tinha medo do julgamento dos outros, hoje em dia aprendi com você que não devemos nos importar com os que os outro pensam de nós,devemos viver nossas vidas sem se importar com os outros, e é assim que vivo o nosso relacionamento hoje, sem ligar para os que os outros dizer.</p>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h3 class="episodio-titulo">Episódio 5: Nossa Aliança</h3>
+                    <div class="moldura"><img src="foto5.jpg" class="img-momento"></div>
+                    <div class="cartao">
+                        <p>Esse foi o seu pedido de namoro, lembro que nesse dia me emocionei com você se ajoelhando na minha frente, eu amei tudo naquele dia, era o meu aniversário, eu nunca comemorava meu aniversário anualmente, esse ano eu queria muito fazer e chamar vocês, mas não deu certo, estava triste por isso. mas você chegou e trouxe um bolo para comemorarmos trouxe um lindo buquê pra mim e as alianças que usamos até hoje.</p>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h3 class="episodio-titulo">Episódio 6: Viagem Emocionante</h3>
+                    <div class="moldura"><img src="foto6.jpg" class="img-momento"></div>
+                    <div class="cartao">
+                        <p>Essa foi a nossa primeira viagem juntos, curtimos muito nesse dia, pulamos nas ondas, tiramos diversas fotos, eu carreguei você nos braços ksksk, jogamos vôlei, foi um dia muito divertido.</p>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h3 class="episodio-titulo">Episódio 7: O Natal</h3>
+                    <div class="moldura"><img src="foto7.jpg" class="img-momento"></div>
+                    <div class="cartao">
+                        <p>O nosso natal juntos... lembro que essa semana eu queria passar muito tempo com você pois você iria pro maranhão eu tinha muito medo de você ir embora nessa convenção, foi uma noite maravilhosa, nos divertimos em família, apesar de meu pai estar com muitos problemas financeiros e nós termos que sair cedo, eu amei esse dia. logo depois você foi pro maranhão e eu fiquei com muitas saudades, eu lembro que assisti a todos os dias de live ksksks principalmente o ultimo dia, e não parei de ficar ansiosa até o irmão parar de falar os nomes das transferências.</p>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h3 class="episodio-titulo">Episódio 8: O Reencontro</h3>
+                    <div class="moldura"><img src="foto8.jpg" class="img-momento"></div>
+                    <div class="cartao">
+                        <p>Esse foi o dia de matar a saudade, depois de muitos dias sem se ver por conta da sua viagem, finalmente nos vimos, o plano inicial era ir ao shopping mas justo nesse dia ele fechou, mas nós andamos, fomos a praça, depois comemos salgado, depois sorvete, foi um dia belissimo.</p>
+                    </div>
+                </div>
+
+                <div class="slide">
+                    <h3 class="episodio-titulo">Episódio 9: Para Sempre</h3>
+                    <div class="moldura"><img src="foto9.jpg" class="img-momento"></div>
+                    <div class="cartao">
+                        <p>E hoje em dia somos o que somos. um casal abençoado por Deus, amorosos, carinhosos, e cheio de amor um para o outro, companherismo, e a nossa amizade que é o pilar de um relacionamnto saudável, te amo meu amor ❤️, e aqui finalizamos a nossa viagem no mundo da memoria.</p>
+                    </div>
+                </div>
+
+            </div>
+            <button class="btn-mundo" style="font-size:0.9rem; margin-top:20px;" onclick="animarTransicao('pagina-momentos', 'conteudo-site', false)">⬅️ Voltar à Carta</button>
+        </div>
+        <footer>Feito com amor por Rayssa | 2026</footer>
+    </div>
+
+    <script>
+        // --- SISTEMA DE ÁUDIO INICIAL MÁGICO ---
+        let musicaInicialComecou = false;
+        
+        // Toca a música inicial assim que ele tocar na tela (clicar, digitar, etc)
+        document.body.addEventListener("click", iniciarAudio);
+        document.body.addEventListener("keydown", iniciarAudio);
+
+        function iniciarAudio() {
+            if (!musicaInicialComecou) {
+                let mInicio = document.getElementById("musica-inicio");
+                mInicio.volume = 0.5; // Inicia com volume um pouco mais baixo
+                mInicio.play().catch(e => console.log("Aguardando mais interação do usuário."));
+                musicaInicialComecou = true;
+            }
+        }
+
+        // --- SENHA ---
+        function verificarSenha() {
+            let s = document.getElementById("campo-senha").value.trim();
+            if(s === "290425") {
+                document.getElementById("tela-senha").style.display = "none";
+                document.getElementById("conteudo-site").style.display = "flex";
+                setInterval(criarCoracao, 400);
+            } else {
+                document.getElementById("mensagem-erro").innerText = "vamos meu amor você sabe ❤️";
+            }
+        }
+
+        // --- TRANSIÇÃO AVIÃO & TROCA DE MÚSICA ---
+        function animarTransicao(idSair, idEntrar, indoProMundoMemoria) {
+            const overlay = document.getElementById("transicao-aviao");
+            const aviao = document.querySelector(".aviao-icon");
+            
+            const mInicio = document.getElementById("musica-inicio");
+            const mMemorias = document.getElementById("musica-memorias");
+
+            overlay.style.display = "flex";
+            overlay.style.animation = "bgFill 2s forwards";
+            aviao.style.animation = "vooAviao 2s forwards";
+
+            // Lógica de troca de música:
+            if (indoProMundoMemoria) {
+                mInicio.pause(); // Pausa a música inicial
+                mMemorias.currentTime = 0; // Reinicia a do mundo
+                mMemorias.play(); // Toca a música do mundo das memórias
+            } else {
+                mMemorias.pause(); // Pausa a música do mundo
+                mInicio.play(); // Volta a tocar a música inicial
+            }
+
+            setTimeout(() => {
+                document.getElementById(idSair).style.display = "none";
+                document.getElementById(idEntrar).style.display = "flex";
+                window.scrollTo(0,0);
+            }, 1000);
+
+            setTimeout(() => {
+                overlay.style.display = "none";
+                overlay.style.animation = "";
+                aviao.style.animation = "";
+            }, 2000);
+        }
+
+        // --- SLIDER ---
+        let idx = 0;
+        function mudarSlide(n) {
+            const slides = document.querySelectorAll(".slide");
+            slides[idx].classList.remove("ativo");
+            idx = (idx + n + slides.length) % slides.length;
+            slides[idx].classList.add("ativo");
+        }
+
+        // --- CORAÇÕES ---
+        function criarCoracao() {
+            const c = document.createElement('div');
+            c.innerHTML = '❤️';
+            c.className = 'coracao-chuva';
+            c.style.left = Math.random() * 100 + 'vw';
+            c.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 5000);
+        }
+
+        document.getElementById("campo-senha").addEventListener("keyup", (e) => { if(e.key === "Enter") verificarSenha(); });
+    </script>
+</body>
+</html>
